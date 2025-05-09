@@ -18,6 +18,7 @@ public class User {
     @Column(unique = true)
     private String email;
     private String password;
+    private int phone;
 
     @OneToMany
     private List<Playlists> playlists = new ArrayList<>();
@@ -25,8 +26,13 @@ public class User {
     @Enumerated(EnumType.STRING)
     private Role role;
 
+    @OneToMany(cascade = CascadeType.ALL)
     private List<Comment> comments;
+
+    @OneToMany(cascade = CascadeType.ALL)
     private List<Music> musics;
+
+    @OneToMany(cascade = CascadeType.ALL)
     private List<Reels> reels;
 
     public User () {}
@@ -41,6 +47,7 @@ public class User {
     public String getEmail () { return this.email; }
     public String getPassword () { return this.password; }
     public Role getRole () { return this.role; }
+    public int getPhone () { return this.phone; }
     public List<Playlists> getPlaylists() {
         return this.playlists;
     }
@@ -66,6 +73,10 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public void setPhone (int phone) {
+        this.phone = phone;
     }
 
     public void setComments(List<Comment> comments) {
