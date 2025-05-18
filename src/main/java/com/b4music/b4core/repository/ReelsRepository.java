@@ -8,4 +8,5 @@ import java.util.List;
 
 public interface ReelsRepository extends JpaRepository<Reels, Long> {
     List<Reels> getReelsByUser (User user);
+    Reels getReelsById (Long id);
 }
