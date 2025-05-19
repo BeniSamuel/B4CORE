@@ -2,8 +2,6 @@ package com.b4music.b4core.model;
 
 import jakarta.persistence.*;
 
-import java.util.List;
-
 @Entity
 public class Playlists {
 
@@ -11,23 +9,22 @@ public class Playlists {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String title;
-
-    @OneToMany
-    private List<Music> music;
     private Long likes;
     private Long dislikes;
 
-    @OneToMany
-    private List<Comment> comments;
+    @ManyToOne
+    @JoinColumn(name = "userId")
+    private User user;
 
     public Playlists () {}
+    public Playlists (String title, Long likes, Long dislikes) {
+        this.title = title;
+        this.likes = likes;
+        this.dislikes = likes;
+    }
 
     public String getTitle () {
         return this.title;
-    }
-
-    public List<Music> getMusic () {
-        return this.music;
     }
 
     public Long getLikes () {
@@ -38,13 +35,7 @@ public class Playlists {
         return this.dislikes;
     }
 
-    public List<Comment> getComments () {
-        return this.comments;
-    }
-
-    public void setComments(List<Comment> comments) {
-        this.comments = comments;
-    }
+    public User getUser () { return this.user; }
 
     public void setDislikes(Long dislikes) {
         this.dislikes = dislikes;
@@ -58,11 +49,7 @@ public class Playlists {
         this.title = title;
     }
 
-    public void setMusic(List<Music> music) {
-        this.music = music;
-    }
+    public void setUser (User user) { this.user = user; }
 
-    public void addMusic (Music music) {
-        this.music.add(music);
-    }
+
 }
