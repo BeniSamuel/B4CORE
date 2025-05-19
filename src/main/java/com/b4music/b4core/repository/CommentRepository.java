@@ -11,4 +11,5 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
     List<Comment> getCommentsByReels(Reels reels);
     List<Comment> getCommentsByLibrary(Library library);
     List<Comment> getCommentsByMusic(Music music);
+    Comment getCommentsById(Long commentId);
 }
