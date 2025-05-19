@@ -34,7 +34,6 @@ public class ReelService {
         return this.reelsRepository.getReelsById(id);
     }
 
-
     public Reels createReel (ReelDto reelDto) {
         User user = this.userService.getUserById(reelDto.getUser_id());
         if (user != null) {

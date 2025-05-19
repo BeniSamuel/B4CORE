@@ -67,4 +67,8 @@ public class CommentService {
         }
         return null;
     }
+
+    public Comment getCommentById (Long commentId) {
+        return this.commentRepository.getCommentsById(commentId);
+    }
 }
