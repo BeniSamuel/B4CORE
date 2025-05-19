@@ -1,4 +1,70 @@
 package com.b4music.b4core.service;
 
+import com.b4music.b4core.model.*;
+import com.b4music.b4core.repository.CommentRepository;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+@Service
 public class CommentService {
+    private final CommentRepository commentRepository;
+    private final UserService userService;
+    private final PlayListService playListService;
+    private final ReelService reelService;
+    private final MusicService musicService;
+    private final LibraryService libraryService;
+
+    public CommentService (CommentRepository commentRepository, UserService userService, PlayListService playListService, ReelService reelService, MusicService musicService, LibraryService libraryService) {
+        this.commentRepository = commentRepository;
+        this.userService = userService;
+        this.playListService = playListService;
+        this.reelService = reelService;
+        this.musicService = musicService;
+        this.libraryService = libraryService;
+    }
+
+    public List<Comment> getAllComments () {
+        return this.commentRepository.findAll();
+    }
+
+    public List<Comment> getAllCommentByUser (Long userId) {
+        User user = this.userService.getUserById(userId);
+        if (user != null) {
+            return this.commentRepository.getCommentsByUser(user);
+        }
+        return null;
+    }
+
+    public List<Comment> getAllCommentsByPlaylist (Long playListId) {
+        Playlists playlists = this.playListService.getPlaylistById(playListId);
+        if (playlists != null) {
+            return this.commentRepository.getCommentsByPlaylists(playlists);
+        }
+        return null;
+    }
+
+    public List<Comment> getAllCommentsByReels (Long reelId) {
+        Reels reels = this.reelService.getReelsById(reelId);
+        if (reels != null) {
+            return this.commentRepository.getCommentsByReels(reels);
+        }
+        return null;
+    }
+
+    public List<Comment> getAllCommentsByMusic (Long musicId) {
+        Music music = this.musicService.getMusicById(musicId);
+        if (music != null) {
+            return this.commentRepository.getCommentsByMusic(music);
+        }
+        return null;
+    }
+
+    public List<Comment> getAllCommentsByLibrary (Long libraryId) {
+        Library library = this.libraryService.getLibraryById(libraryId);
+        if (library != null) {
+            return this.commentRepository.getCommentsByLibrary(library);
+        }
+        return null;
+    }
 }

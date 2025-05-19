@@ -11,10 +11,12 @@ import java.util.List;
 public class MusicService {
     private final MusicRepository musicRepository;
     private final UserService userService;
+    private final FileService fileService;
 
-    public MusicService (MusicRepository musicRepository, UserService userService) {
+    public MusicService (MusicRepository musicRepository, UserService userService, FileService fileService) {
         this.musicRepository = musicRepository;
         this.userService = userService;
+        this.fileService = fileService;
     }
 
     public List<Music> getAllMusic () {
@@ -27,5 +29,9 @@ public class MusicService {
             return this.musicRepository.getMusicByUser(user);
         }
         return null;
+    }
+
+    public Music getMusicById (Long musicId) {
+        return this.musicRepository.getMusicById(musicId);
     }
 }
