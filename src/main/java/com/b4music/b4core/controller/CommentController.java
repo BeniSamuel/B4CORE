@@ -1,14 +1,12 @@
 package com.b4music.b4core.controller;
 
+import com.b4music.b4core.dto.CommentDto;
 import com.b4music.b4core.model.Comment;
 import com.b4music.b4core.service.CommentService;
 import com.b4music.b4core.util.ApiResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -69,5 +67,32 @@ public class CommentController {
             return ResponseEntity.ok(new ApiResponse<>(true, "Successfully retrieved all comments on reels", comments));
         }
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ApiResponse<>(false, "Failed to retrieve all comments on reel", null));
+    }
+
+    @PostMapping("/reel/{reelId}/create")
+    public ResponseEntity<ApiResponse<Comment>> createComment (@PathVariable Long reelId, @RequestBody CommentDto commentDto) {
+        Comment newComment = this.commentService.createCommentByReel(reelId, commentDto);
+        if (newComment != null) {
+            return ResponseEntity.status(HttpStatus.CREATED).body(new ApiResponse<>(true, "Successfully added a comment on a reel", newComment));
+        }
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ApiResponse<>(false, "Failed to add a comment on a reel", null));
+    }
+
+    @PostMapping("/music/{musicId}/create")
+    public ResponseEntity<ApiResponse<Comment>> createComment (@PathVariable long musicId, @RequestBody CommentDto commentDto) {
+        Comment newComment = this.commentService.createCommentByMusic(musicId, commentDto);
+        if (newComment != null) {
+            return ResponseEntity.status(HttpStatus.CREATED).body(new ApiResponse<>(true, "Successfully added comment!!!", newComment));
+        }
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ApiResponse<>(false, "Bad request!!!", null));
+    }
+
+    @PostMapping("/playlists/{playlistsId}/create")
+    public ResponseEntity<ApiResponse<Comment>> createCommentByPlaylists (@PathVariable long playlistsId, @RequestBody CommentDto commentDto) {
+        Comment newComment = this.commentService.createCommentByPlaylist(playlistsId, commentDto);
+        if (newComment != null) {
+            return ResponseEntity.status(HttpStatus.CREATED).body(new ApiResponse<>(true, "Successfully added comment!!!", newComment));
+        }
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ApiResponse<>(false, "bad request!!!", null));
     }
 }
