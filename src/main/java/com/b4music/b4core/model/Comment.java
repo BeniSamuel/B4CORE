@@ -33,6 +33,24 @@ public class Comment {
     private Library library;
 
     public Comment () {}
+    public Comment (String message, Long likes, Long dislikes, Reels reels) {
+        this.message = message;
+        this.likes = likes;
+        this.dislikes = dislikes;
+        this.reels = reels;
+    }
+    public Comment (String message, Long likes, long dislikes, Music music) {
+        this.message = message;
+        this.likes = likes;
+        this.dislikes = dislikes;
+        this.music = music;
+    }
+    public Comment (String message, Long likes, Long dislikes, Playlists playlists) {
+        this.message = message;
+        this.likes = likes;
+        this.dislikes = dislikes;
+        this.playlists = playlists;
+    }
 
     public User getUser() {
         return user;
