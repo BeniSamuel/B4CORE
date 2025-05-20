@@ -1,5 +1,6 @@
 package com.b4music.b4core.service;
 
+import com.b4music.b4core.dto.CommentDto;
 import com.b4music.b4core.model.*;
 import com.b4music.b4core.repository.CommentRepository;
 import org.springframework.stereotype.Service;
@@ -70,5 +71,32 @@ public class CommentService {
 
     public Comment getCommentById (Long commentId) {
         return this.commentRepository.getCommentsById(commentId);
+    }
+
+    public Comment createCommentByReel (Long reelId, CommentDto commentDto) {
+        Reels reel = this.reelService.getReelsById(reelId);
+        if (reel != null) {
+            Comment newComment = new Comment(commentDto.getMessage(), commentDto.getLikes(), commentDto.getDislikes(), reel);
+            return this.commentRepository.save(newComment);
+        }
+        return null;
+    }
+
+    public Comment createCommentByMusic (Long musicId, CommentDto commentDto) {
+        Music music = this.musicService.getMusicById(musicId);
+        if (music != null) {
+            Comment newComment = new Comment(commentDto.getMessage(), commentDto.getLikes(), commentDto.getDislikes(), music);
+            return this.commentRepository.save(newComment);
+        }
+        return null;
+    }
+
+    public Comment createCommentByPlaylist (Long playlistId, CommentDto commentDto) {
+        Playlists playlists = this.playListService.getPlaylistById(playlistId);
+        if (playlists != null) {
+            Comment newComment = new Comment(commentDto.getMessage(), commentDto.getLikes(), commentDto.getDislikes(), playlists);
+            return this.commentRepository.save(newComment);
+        }
+        return null;
     }
 }
