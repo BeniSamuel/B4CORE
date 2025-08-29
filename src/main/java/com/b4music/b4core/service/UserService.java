@@ -3,6 +3,7 @@ package com.b4music.b4core.service;
 import com.b4music.b4core.dto.UserRegisterDto;
 import com.b4music.b4core.model.User;
 import com.b4music.b4core.repository.UserRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -13,14 +14,10 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
+@AllArgsConstructor
 public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-
-    public UserService (UserRepository userRepository, PasswordEncoder passwordEncoder) {
-        this.userRepository = userRepository;
-        this.passwordEncoder = passwordEncoder;
-    }
 
     public List<User> getAllUsers () {
         return this.userRepository.findAll();
