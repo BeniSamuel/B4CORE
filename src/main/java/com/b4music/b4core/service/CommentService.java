@@ -1,29 +1,21 @@
 package com.b4music.b4core.service;
 
-import com.b4music.b4core.dto.CommentDto;
+import com.b4music.b4core.dto.CommentMusicDto;
 import com.b4music.b4core.model.*;
 import com.b4music.b4core.repository.CommentRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@AllArgsConstructor
 public class CommentService {
     private final CommentRepository commentRepository;
     private final UserService userService;
     private final PlayListService playListService;
     private final ReelService reelService;
     private final MusicService musicService;
-    private final LibraryService libraryService;
-
-    public CommentService (CommentRepository commentRepository, UserService userService, PlayListService playListService, ReelService reelService, MusicService musicService, LibraryService libraryService) {
-        this.commentRepository = commentRepository;
-        this.userService = userService;
-        this.playListService = playListService;
-        this.reelService = reelService;
-        this.musicService = musicService;
-        this.libraryService = libraryService;
-    }
 
     public List<Comment> getAllComments () {
         return this.commentRepository.findAll();
@@ -61,19 +53,11 @@ public class CommentService {
         return null;
     }
 
-    public List<Comment> getAllCommentsByLibrary (Long libraryId) {
-        Library library = this.libraryService.getLibraryById(libraryId);
-        if (library != null) {
-            return this.commentRepository.getCommentsByLibrary(library);
-        }
-        return null;
-    }
-
     public Comment getCommentById (Long commentId) {
         return this.commentRepository.getCommentsById(commentId);
     }
 
-    public Comment createCommentByReel (Long reelId, CommentDto commentDto) {
+    public Comment createCommentByReel (Long reelId, CommentMusicDto commentDto) {
         Reels reel = this.reelService.getReelsById(reelId);
         if (reel != null) {
             Comment newComment = new Comment(commentDto.getMessage(), commentDto.getLikes(), commentDto.getDislikes(), reel);
@@ -82,16 +66,16 @@ public class CommentService {
         return null;
     }
 
-    public Comment createCommentByMusic (Long musicId, CommentDto commentDto) {
+    public Comment createCommentByMusic (Long musicId, CommentMusicDto commentMusicDto) {
         Music music = this.musicService.getMusicById(musicId);
         if (music != null) {
-            Comment newComment = new Comment(commentDto.getMessage(), commentDto.getLikes(), commentDto.getDislikes(), music);
+            Comment newComment = new Comment(commentMusicDto.getMessage(), commentDto.getLikes(), commentDto.getDislikes(), music);
             return this.commentRepository.save(newComment);
         }
         return null;
     }
 
-    public Comment createCommentByPlaylist (Long playlistId, CommentDto commentDto) {
+    public Comment createCommentByPlaylist (Long playlistId, CommentMusicDto commentDto) {
         Playlists playlists = this.playListService.getPlaylistById(playlistId);
         if (playlists != null) {
             Comment newComment = new Comment(commentDto.getMessage(), commentDto.getLikes(), commentDto.getDislikes(), playlists);
