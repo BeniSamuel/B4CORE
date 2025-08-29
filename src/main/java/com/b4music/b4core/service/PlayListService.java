@@ -4,6 +4,7 @@ import com.b4music.b4core.dto.PlaylistDto;
 import com.b4music.b4core.model.Playlists;
 import com.b4music.b4core.model.User;
 import com.b4music.b4core.repository.PlaylistsRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -13,14 +14,10 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
+@AllArgsConstructor
 public class PlayListService {
     private final PlaylistsRepository playlistsRepository;
     private final UserService userService;
-
-    public PlayListService (PlaylistsRepository playlistsRepository, UserService userService) {
-        this.playlistsRepository = playlistsRepository;
-        this.userService = userService;
-    }
 
     public List<Playlists> getAllPlaylists () {
         return this.playlistsRepository.findAll();
@@ -57,7 +54,7 @@ public class PlayListService {
     }
 
     public Playlists createPlaylist (PlaylistDto playlistDto) {
-        Playlists playlists = new Playlists(playlistDto.getTitle(), playlistDto.getLikes(), playlistDto.getDisLikes());
+        Playlists playlists = new Playlists(playlistDto.getTitle(), pl);
         return this.playlistsRepository.save(playlists);
     }
 
@@ -65,8 +62,6 @@ public class PlayListService {
         Playlists playlists = this.getPlaylistById(playListId);
         if (playlists != null) {
             playlists.setTitle(playlistDto.getTitle());
-            playlists.setLikes(playlistDto.getDisLikes());
-            playlists.setDislikes(playlistDto.getDisLikes());
 
             return this.playlistsRepository.save(playlists);
         }
