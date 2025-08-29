@@ -1,9 +1,11 @@
 package com.b4music.b4core.controller;
 
 import com.b4music.b4core.dto.CommentDto;
+import com.b4music.b4core.dto.CommentMusicDto;
 import com.b4music.b4core.model.Comment;
 import com.b4music.b4core.service.CommentService;
 import com.b4music.b4core.util.ApiResponse;
+import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,12 +14,9 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/b4core/v1/comments")
+@AllArgsConstructor
 public class CommentController {
     private final CommentService commentService;
-
-    public CommentController (CommentService commentService) {
-        this.commentService = commentService;
-    }
 
     @GetMapping("/all")
     public ResponseEntity<ApiResponse<List<Comment>>> getAllComments () {
@@ -70,8 +69,8 @@ public class CommentController {
     }
 
     @PostMapping("/reel/{reelId}/create")
-    public ResponseEntity<ApiResponse<Comment>> createComment (@PathVariable Long reelId, @RequestBody CommentDto commentDto) {
-        Comment newComment = this.commentService.createCommentByReel(reelId, commentDto);
+    public ResponseEntity<ApiResponse<Comment>> createComment (@PathVariable Long reelId, @RequestBody CommentMusicDto commentMusicDto) {
+        Comment newComment = this.commentService.createCommentByReel(reelId, commentMusicDto);
         if (newComment != null) {
             return ResponseEntity.status(HttpStatus.CREATED).body(new ApiResponse<>(true, "Successfully added a comment on a reel", newComment));
         }
@@ -79,8 +78,8 @@ public class CommentController {
     }
 
     @PostMapping("/music/{musicId}/create")
-    public ResponseEntity<ApiResponse<Comment>> createComment (@PathVariable long musicId, @RequestBody CommentDto commentDto) {
-        Comment newComment = this.commentService.createCommentByMusic(musicId, commentDto);
+    public ResponseEntity<ApiResponse<Comment>> createComment (@PathVariable long musicId, @RequestBody CommentMusicDto commentMusicDto) {
+        Comment newComment = this.commentService.createCommentByMusic(musicId, commentMusicDto);
         if (newComment != null) {
             return ResponseEntity.status(HttpStatus.CREATED).body(new ApiResponse<>(true, "Successfully added comment!!!", newComment));
         }
