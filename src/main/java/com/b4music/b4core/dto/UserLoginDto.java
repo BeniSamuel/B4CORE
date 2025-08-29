@@ -1,14 +1,9 @@
 package com.b4music.b4core.dto;
 
+import lombok.Getter;
+
+@Getter
 public class UserLoginDto {
     private String email;
     private String password;
-
-    public String getEmail () {
-        return this.email;
-    }
-
-    public String getPassword () {
-        return this.password;
-    }
 }
