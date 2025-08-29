@@ -3,21 +3,17 @@ package com.b4music.b4core.service;
 import com.b4music.b4core.model.Music;
 import com.b4music.b4core.model.User;
 import com.b4music.b4core.repository.MusicRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@AllArgsConstructor
 public class MusicService {
     private final MusicRepository musicRepository;
     private final UserService userService;
     private final FileService fileService;
-
-    public MusicService (MusicRepository musicRepository, UserService userService, FileService fileService) {
-        this.musicRepository = musicRepository;
-        this.userService = userService;
-        this.fileService = fileService;
-    }
 
     public List<Music> getAllMusic () {
         return this.musicRepository.findAll();
