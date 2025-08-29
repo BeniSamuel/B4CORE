@@ -4,6 +4,7 @@ import com.b4music.b4core.dto.ReelDto;
 import com.b4music.b4core.model.Reels;
 import com.b4music.b4core.service.ReelService;
 import com.b4music.b4core.util.ApiResponse;
+import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,12 +13,9 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/b4core/v1/reels")
+@AllArgsConstructor
 public class ReelsController {
     private final ReelService reelService;
-
-    public ReelsController (ReelService reelService) {
-        this.reelService = reelService;
-    }
 
     @GetMapping("/all")
     public ResponseEntity<ApiResponse<List<Reels>>> getAllReels () {
