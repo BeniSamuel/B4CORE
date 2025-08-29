@@ -4,28 +4,25 @@ import com.b4music.b4core.dto.ReelDto;
 import com.b4music.b4core.model.Reels;
 import com.b4music.b4core.model.User;
 import com.b4music.b4core.repository.ReelsRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@AllArgsConstructor
 public class ReelService {
     private final ReelsRepository reelsRepository;
     private final UserService userService;
-
-    public ReelService (ReelsRepository reelsRepository, UserService userService) {
-        this.reelsRepository = reelsRepository;
-        this.userService = userService;
-    }
 
     public List<Reels> getAllReels () {
         return this.reelsRepository.findAll();
     }
 
     public List<Reels> getAllReelsByUser (Long userId) {
-        User user = this.userService.getUserById(userId);
-        if (user != null) {
-            return this.reelsRepository.getReelsByUser(user);
+        User author = this.userService.getUserById(userId);
+        if (author != null) {
+            return this.reelsRepository.getReelsByUser(author);
         }
         return null;
     }
@@ -35,24 +32,22 @@ public class ReelService {
     }
 
     public Reels createReel (ReelDto reelDto) {
-        User user = this.userService.getUserById(reelDto.getUser_id());
-        if (user != null) {
-            Reels newReels = new Reels(reelDto.getName(), reelDto.getDescription(), reelDto.getLikes(), reelDto.getDislikes(), user);
+        User author = this.userService.getUserById(reelDto.getUser_id());
+        if (author != null) {
+            Reels newReels = new Reels(reelDto.getName(), reelDto.getDescription(), author);
             return this.reelsRepository.save(newReels);
         }
         return null;
     }
 
     public Reels updateReel (Long id, ReelDto reelDto) {
-        User user = this.userService.getUserById(reelDto.getUser_id());
+        User author = this.userService.getUserById(reelDto.getUser_id());
         Reels reel = this.getReelsById(id);
 
-        if (user != null && reel != null) {
+        if (author != null && reel != null) {
             reel.setName(reelDto.getName());
             reel.setDescription(reelDto.getDescription());
-            reel.setLikes(reelDto.getLikes());
-            reel.setDislikes(reel.getDislikes());
-            reel.setUser(user);
+            reel.setAuthor(author);
 
             return this.reelsRepository.save(reel);
         }
