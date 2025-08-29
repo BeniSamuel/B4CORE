@@ -4,6 +4,7 @@ import com.b4music.b4core.dto.UserRegisterDto;
 import com.b4music.b4core.model.User;
 import com.b4music.b4core.service.UserService;
 import com.b4music.b4core.util.ApiResponse;
+import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,12 +14,9 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/b4core/v1/users")
+@AllArgsConstructor
 public class UserController {
     private final UserService userService;
-
-    public UserController (UserService userService) {
-        this.userService = userService;
-    }
 
     @GetMapping("/all")
     public ResponseEntity<ApiResponse<List<User>>> getAllUsers () {
